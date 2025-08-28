@@ -1,0 +1,11 @@
+kernel.bin: boot.o kernel.o
+	$(LD) $(LDFLAGS) boot.o kernel.o -o kernel.bin
+
+kernel.iso: kernel.bin grub/grub.cfg
+	mkdir -p iso/boot/grub
+	cp kernel.bin iso/boot/
+	cp grub/grub.cfg iso/boot/grub/
+	grub-mkrescue -o kernel.iso iso
+
+clean:
+	rm -rf *.o *.bin iso kernel.iso
